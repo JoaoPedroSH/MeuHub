@@ -13,14 +13,6 @@ return new class extends Migration
     {
         Schema::create('certifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resume_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('institution')->nullable();
-            $table->string('date')->nullable();
-            $table->string('expiration_date')->nullable();
-            $table->string('code')->nullable();
-            $table->string('url')->nullable();
-            $table->integer('order_index')->default(0);
             $table->timestamps();
         });
     }

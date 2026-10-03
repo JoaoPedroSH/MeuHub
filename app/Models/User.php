@@ -29,9 +29,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function resumes(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Resume::class)->latest('updated_at');
-    }
 }

@@ -17,8 +17,8 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
-    password: '',
+    email: 'demo@meuhub.local',
+    password: 'senha123',
     remember: false,
 });
 
@@ -27,24 +27,49 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+const fillDemo = () => {
+    form.email = 'demo@meuhub.local';
+    form.password = 'senha123';
+};
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
+        <Head title="Entrar no MeuHub" />
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-slate-900">Entrar na sua conta</h2>
+            <p class="text-xs text-slate-500 mt-1">Acesse seus currículos e ferramentas do MeuHub.</p>
+        </div>
+
+        <!-- Demo credentials box -->
+        <div class="mb-5 p-3.5 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-between text-xs text-indigo-900">
+            <div>
+                <p class="font-semibold">Conta de Demonstração:</p>
+                <p class="text-indigo-700">demo@meuhub.local • senha123</p>
+            </div>
+            <button
+                type="button"
+                @click="fillDemo"
+                class="px-2.5 py-1 bg-white hover:bg-indigo-100 font-semibold text-indigo-700 rounded-lg border border-indigo-200 transition"
+            >
+                Preencher
+            </button>
+        </div>
+
+        <div v-if="status" class="mb-4 text-sm font-medium text-emerald-600">
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="space-y-4">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="E-mail" />
 
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl"
                     v-model="form.email"
                     required
                     autofocus
@@ -54,13 +79,13 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+            <div>
+                <InputLabel for="password" value="Senha" />
 
                 <TextInput
                     id="password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl"
                     v-model="form.password"
                     required
                     autocomplete="current-password"
@@ -69,31 +94,36 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4 block">
+            <div class="flex items-center justify-between">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
+                    <span class="ms-2 text-xs text-slate-600">Lembrar-me</span>
                 </label>
-            </div>
 
-            <div class="mt-4 flex items-center justify-end">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    class="text-xs text-slate-600 hover:text-slate-900 underline"
                 >
-                    Forgot your password?
+                    Esqueceu a senha?
                 </Link>
+            </div>
 
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
+            <div class="pt-2">
+                <button
+                    type="submit"
                     :disabled="form.processing"
+                    class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl shadow-xs transition disabled:opacity-50"
                 >
-                    Log in
-                </PrimaryButton>
+                    Entrar
+                </button>
+            </div>
+
+            <div class="pt-2 text-center text-xs text-slate-500">
+                Não tem uma conta?
+                <Link :href="route('register')" class="font-semibold text-indigo-600 hover:text-indigo-800">
+                    Cadastre-se
+                </Link>
             </div>
         </form>
     </GuestLayout>

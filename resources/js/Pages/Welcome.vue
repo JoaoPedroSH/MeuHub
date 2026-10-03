@@ -51,7 +51,7 @@ defineProps({
         </header>
 
         <!-- Hero Section -->
-        <main class="max-w-4xl mx-auto px-6 py-16 sm:py-24 text-center space-y-8">
+        <main class="max-w-4xl mx-auto px-6 py-12 sm:py-20 text-center space-y-8">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold">
                 <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
                 <span>MeuHub MVP • Ferramenta de Currículos</span>
@@ -62,7 +62,7 @@ defineProps({
             </h1>
 
             <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                Um espaço pessoal moderno e especializado para criar, personalizar e exportar currículos impecáveis em PDF diretamente para processos seletivos.
+                Um espaço pessoal moderno e especializado para criar, personalizar e exportar currículos profissionais em PDF diretamente para seus processos seletivos.
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -78,12 +78,12 @@ defineProps({
                     :href="route('login')"
                     class="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-medium text-sm rounded-xl border border-slate-200 transition"
                 >
-                    Já tenho uma conta
+                    Já tenho uma conta (Demo)
                 </Link>
             </div>
 
             <!-- Features Highlights Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-16 text-left">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-12 text-left">
                 <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
                     <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center mb-4">
                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -95,7 +95,7 @@ defineProps({
                     </div>
                     <h3 class="font-semibold text-slate-900 text-base">Editor de Documento</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Edite seu currículo de forma fluida e natural, sem formulários cansativos.
+                        Edite seu currículo como um documento fluído e elegante, sem formulários cansativos.
                     </p>
                 </div>
 
@@ -108,7 +108,7 @@ defineProps({
                     </div>
                     <h3 class="font-semibold text-slate-900 text-base">Múltiplas Versões</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Crie e duplique versões personalizadas para cada vaga ou área de atuação.
+                        Crie e duplique versões personalizadas com facilidade para cada vaga ou área de atuação.
                     </p>
                 </div>
 
@@ -122,14 +122,14 @@ defineProps({
                     </div>
                     <h3 class="font-semibold text-slate-900 text-base">Exportação em PDF</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Geração instantânea em formato A4, limpo, elegante e pronto para envio.
+                        Geração instantânea em formato A4, limpo, elegante e pronto para processos seletivos.
                     </p>
                 </div>
             </div>
         </main>
 
         <!-- Footer -->
-        <footer class="max-w-7xl w-full mx-auto px-6 py-8 border-t border-slate-200/60 text-center text-xs text-slate-400">
+        <footer class="max-w-7xl w-full mx-auto px-6 py-6 border-t border-slate-200/60 text-center text-xs text-slate-400">
             MeuHub • Hub Pessoal Modular • Executando em ambiente Docker
         </footer>
     </div>

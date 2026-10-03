@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resume_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('level')->nullable();
-            $table->integer('order_index')->default(0);
             $table->timestamps();
         });
     }

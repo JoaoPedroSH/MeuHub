@@ -13,12 +13,6 @@ return new class extends Migration
     {
         Schema::create('resumes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->jsonb('personal_info')->nullable();
-            $table->text('summary')->nullable();
-            $table->text('additional_info')->nullable();
-            $table->jsonb('section_order')->nullable();
             $table->timestamps();
         });
     }
