@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\SystemSetting;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,6 +22,8 @@ class AuthenticatedSessionController extends Controller
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'googleEnabled' => (bool) SystemSetting::getValue('google_login_enabled', false),
+            'googleConfigured' => filled(SystemSetting::getValue('google_client_id', config('services.google.client_id'))) && filled(SystemSetting::getSecret('google_client_secret', config('services.google.client_secret'))),
         ]);
     }
 

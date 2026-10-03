@@ -32,4 +32,17 @@ class SystemSetting extends Model
         if (blank($value)) return;
         static::updateOrCreate(['key' => $key], ['value' => Crypt::encryptString($value)]);
     }
+
+    public static function getList(string $key, array $default = []): array
+    {
+        $value = static::getValue($key);
+        if ($value === null || $value === '') return $default;
+        $decoded = json_decode((string) $value, true);
+        return is_array($decoded) ? array_values(array_filter($decoded, 'is_string')) : $default;
+    }
+
+    public static function setList(string $key, array $value): void
+    {
+        static::updateOrCreate(['key' => $key], ['value' => json_encode(array_values($value), JSON_UNESCAPED_SLASHES)]);
+    }
 }

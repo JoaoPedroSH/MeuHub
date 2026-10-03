@@ -25,7 +25,7 @@ class ProfileController extends Controller
             'tab' => $request->query('tab', 'perfil'),
             'google' => [
                 'configured' => filled(SystemSetting::getValue('google_client_id', config('services.google.client_id'))) && filled(SystemSetting::getSecret('google_client_secret', config('services.google.client_secret'))),
-                'enabled' => (bool) SystemSetting::getValue('google_calendar_enabled', true),
+                'enabled' => (bool) SystemSetting::getValue('google_calendar_enabled', false),
                 'connected' => (bool) $request->user()->googleCalendarConnection,
                 'email' => $request->user()->googleCalendarConnection?->google_email,
                 'last_synced_at' => $request->user()->googleCalendarConnection?->updated_at?->format('d/m/Y H:i'),

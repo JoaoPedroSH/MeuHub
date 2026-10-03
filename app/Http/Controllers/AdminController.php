@@ -48,12 +48,17 @@ class AdminController extends Controller
         $data = $request->validate([
             'client_id' => ['required', 'string', 'max:255'],
             'client_secret' => ['nullable', 'string', 'max:500'],
-            'redirect_uri' => ['nullable', 'url', 'max:500'],
+            'redirect_uris' => ['nullable', 'array'],
+            'redirect_uris.*' => ['nullable', 'url', 'max:500'],
         ]);
         SystemSetting::setValue('google_client_id', $data['client_id']);
         SystemSetting::setSecret('google_client_secret', $data['client_secret'] ?? null);
-        if (!empty($data['redirect_uri'])) SystemSetting::setValue('google_redirect_uri', $data['redirect_uri']);
-        return back()->with('success', 'Credenciais do Google Agenda salvas com segurança.');
+        $redirectUris = array_values(array_filter($data['redirect_uris'] ?? []));
+        if ($redirectUris) {
+            SystemSetting::setList('google_redirect_uris', $redirectUris);
+            SystemSetting::setValue('google_redirect_uri', $redirectUris[0]);
+        }
+        return back()->with('success', 'Credenciais e URLs do Google salvas com segurança.');
     }
 
     public function toggleGoogle(Request $request): RedirectResponse
@@ -61,6 +66,13 @@ class AdminController extends Controller
         $data = $request->validate(['enabled' => ['required', 'boolean']]);
         SystemSetting::setValue('google_calendar_enabled', $data['enabled']);
         return back()->with('success', $data['enabled'] ? 'Integração Google Agenda ativada.' : 'Integração Google Agenda desativada.');
+    }
+
+    public function toggleGoogleLogin(Request $request): RedirectResponse
+    {
+        $data = $request->validate(['enabled' => ['required', 'boolean']]);
+        SystemSetting::setValue('google_login_enabled', $data['enabled']);
+        return back()->with('success', $data['enabled'] ? 'Login com Google ativado.' : 'Login com Google desativado.');
     }
 
     public function toggleAdmin(User $user): RedirectResponse
@@ -79,7 +91,10 @@ class AdminController extends Controller
             'client_id' => $clientId,
             'has_secret' => filled($clientSecret),
             'redirect_uri' => $this->redirectUri(),
-            'enabled' => (bool) SystemSetting::getValue('google_calendar_enabled', true),
+            'redirect_uris' => SystemSetting::getList('google_redirect_uris', [$this->redirectUri(), url('/login/google/callback')]),
+            'enabled' => (bool) SystemSetting::getValue('google_calendar_enabled', false),
+            'login_enabled' => (bool) SystemSetting::getValue('google_login_enabled', false),
+            'google_registered_users' => User::where('registered_with_google', true)->count(),
             'connected_users' => User::has('googleCalendarConnection')->count(),
         ];
     }

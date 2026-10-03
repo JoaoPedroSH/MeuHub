@@ -107,6 +107,6 @@ class IntegrationController extends Controller
 
     private function clientId(): ?string { return SystemSetting::getValue('google_client_id', config('services.google.client_id')); }
     private function clientSecret(): ?string { return SystemSetting::getSecret('google_client_secret', config('services.google.client_secret')); }
-    private function isConfigured(): bool { return filled($this->clientId()) && filled($this->clientSecret()) && (bool) SystemSetting::getValue('google_calendar_enabled', true); }
+    private function isConfigured(): bool { return filled($this->clientId()) && filled($this->clientSecret()) && (bool) SystemSetting::getValue('google_calendar_enabled', false); }
     private function redirectUri(): string { $redirect = SystemSetting::getValue('google_redirect_uri', config('services.google.redirect')); return Str::startsWith($redirect, 'http') ? $redirect : url($redirect); }
 }

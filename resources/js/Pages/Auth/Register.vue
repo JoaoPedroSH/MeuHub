@@ -6,6 +6,8 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+defineProps({ googleEnabled: { type: Boolean, default: false } });
+
 const form = useForm({
     name: '',
     email: '',
@@ -23,6 +25,8 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="Criar conta" />
+
+        <div v-if="$page.props.flash?.error" class="mb-4 text-sm font-medium text-rose-600">{{ $page.props.flash.error }}</div>
 
         <form @submit.prevent="submit">
             <div>
@@ -108,6 +112,8 @@ const submit = () => {
                     Criar conta
                 </PrimaryButton>
             </div>
+
+            <div v-if="googleEnabled" class="mt-4"><div class="mb-3 flex items-center gap-3 text-xs text-slate-400"><span class="h-px flex-1 bg-slate-200"></span><span>ou</span><span class="h-px flex-1 bg-slate-200"></span></div><a :href="route('login.google')" class="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"><span class="text-base font-bold text-blue-600">G</span>Continuar com o Google</a></div>
         </form>
     </GuestLayout>
 </template>

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'is_admin', 'dashboard_shortcuts', 'admin_shortcuts'])]
+#[Fillable(['name', 'email', 'password', 'is_admin', 'dashboard_shortcuts', 'admin_shortcuts', 'google_id', 'google_avatar', 'registered_with_google'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -27,6 +27,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'is_admin' => 'boolean',
+            'registered_with_google' => 'boolean',
             'dashboard_shortcuts' => 'array',
             'admin_shortcuts' => 'array',
             'password' => 'hashed',

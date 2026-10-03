@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/usuarios/{user}/administrador', [AdminController::class, 'toggleAdmin'])->name('users.toggle-admin');
         Route::get('/integracoes', [AdminController::class, 'integrations'])->name('integrations');
         Route::patch('/integracoes/google', [AdminController::class, 'toggleGoogle'])->name('integrations.google.toggle');
+        Route::patch('/integracoes/google-login', [AdminController::class, 'toggleGoogleLogin'])->name('integrations.google-login.toggle');
         Route::patch('/integracoes/google/credenciais', [AdminController::class, 'updateGoogleCredentials'])->name('integrations.google.credentials');
     });
 });

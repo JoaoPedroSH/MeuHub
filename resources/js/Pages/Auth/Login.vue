@@ -14,6 +14,14 @@ defineProps({
     status: {
         type: String,
     },
+    googleConfigured: {
+        type: Boolean,
+        default: false,
+    },
+    googleEnabled: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const form = useForm({
@@ -60,6 +68,10 @@ const fillDemo = () => {
 
         <div v-if="status" class="mb-4 text-sm font-medium text-emerald-600">
             {{ status }}
+        </div>
+
+        <div v-if="$page.props.flash?.error" class="mb-4 text-sm font-medium text-rose-600">
+            {{ $page.props.flash.error }}
         </div>
 
         <form @submit.prevent="submit" class="space-y-4">
@@ -118,6 +130,10 @@ const fillDemo = () => {
                     Entrar
                 </button>
             </div>
+
+            <div v-if="googleEnabled" class="flex items-center gap-3 py-2 text-xs text-slate-400"><span class="h-px flex-1 bg-slate-200"></span><span>ou</span><span class="h-px flex-1 bg-slate-200"></span></div>
+
+            <a v-if="googleEnabled" :href="route('login.google')" class="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"><span class="text-base font-bold text-blue-600">G</span>Continuar com o Google</a>
 
             <div class="pt-2 text-center text-xs text-slate-500">
                 Não tem uma conta?
