@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: meuhub_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d meuhub_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      APP_ENV: testing
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: meuhub_test
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      CACHE_STORE: array
+      SESSION_DRIVER: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, dom, fileinfo, pgsql, pdo_pgsql, intl, zip, bcmath, gd
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Prepare application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
+
+      - name: Run PHP tests
+        run: php artisan test
+
+      - name: Build frontend
+        run: npm run build
