@@ -61,9 +61,12 @@ const printDocument = () => {
         <article class="max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-slate-200/80 p-8 sm:p-14 text-slate-800 font-sans print:shadow-none print:border-none print:p-0">
             <!-- Header -->
             <header class="border-b-2 border-slate-900 pb-5 mb-6">
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 uppercase tracking-tight">
-                    {{ resume.personal_info?.full_name || resume.title }}
-                </h1>
+                <div class="flex items-start gap-4">
+                    <img v-if="resume.photo_url" :src="resume.photo_url" alt="Foto profissional" class="h-20 w-20 shrink-0 rounded-full object-cover" />
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 uppercase tracking-tight">
+                        {{ resume.personal_info?.full_name || resume.title }}
+                    </h1>
+                </div>
 
                 <div class="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
                     <span v-if="resume.personal_info?.email">

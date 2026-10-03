@@ -34,21 +34,39 @@ const page = usePage();
                                 route().current('dashboard')
                                     ? 'bg-slate-900 text-white font-medium shadow-sm'
                                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
-                                'group flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-all duration-150'
+                                'group flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all duration-150'
                             ]"
                         >
-                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect width="7" height="9" x="3" y="3" rx="1"/>
                                 <rect width="7" height="5" x="14" y="3" rx="1"/>
                                 <rect width="7" height="9" x="14" y="12" rx="1"/>
                                 <rect width="7" height="5" x="3" y="16" rx="1"/>
-                            </svg>
-                            Dashboard
+                            </svg><span>Início</span></span><span v-if="route().current('dashboard')" class="h-1.5 w-1.5 rounded-full bg-white"></span>
+                        </Link>
+                        <Link
+                            :href="route('notes.index')"
+                            :class="[route().current('notes.*') ? 'bg-amber-50 text-amber-700 font-medium' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900', 'group flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-all duration-150']"
+                        >
+                            <span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h6M8 16h4"/></svg><span>Anotações</span></span><span v-if="route().current('notes.*')" class="h-1.5 w-1.5 rounded-full bg-amber-600"></span>
+                        </Link>
+                        <Link
+                            :href="route('calendar.index')"
+                            :class="[route().current('calendar.*') ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900', 'group flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-all duration-150']"
+                        >
+                            <span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg><span>Agenda</span></span><span v-if="route().current('calendar.*')" class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span>
                         </Link>
                     </div>
 
+                    <div v-if="$page.props.auth.is_admin">
+                        <div class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Administração</div>
+                        <Link :href="route('admin.dashboard')" :class="[route().current('admin.dashboard') ? 'bg-slate-900 text-white font-medium shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900', 'group flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all duration-150']"><span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h7"/></svg>Painel Administrativo</span><span v-if="route().current('admin.dashboard')" class="h-1.5 w-1.5 rounded-full bg-white"></span></Link>
+                        <Link :href="route('admin.users')" :class="[route().current('admin.users') ? 'bg-slate-100 text-slate-900 font-medium' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900', 'group flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all duration-150']"><span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M10.5 20a5.5 5.5 0 0 1 11 0"/></svg>Usuários</span><span v-if="route().current('admin.users')" class="h-1.5 w-1.5 rounded-full bg-slate-900"></span></Link>
+                        <Link :href="route('admin.integrations')" :class="[route().current('admin.integrations') ? 'bg-slate-100 text-slate-900 font-medium' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900', 'group flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all duration-150']"><span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12M18 9v12M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM18 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15c5 0 5-6 12-6"/></svg>Integrações</span><span v-if="route().current('admin.integrations')" class="h-1.5 w-1.5 rounded-full bg-slate-900"></span></Link>
+                    </div>
+
                     <!-- Category: Profissional -->
-                    <div>
+                    <div v-if="!$page.props.auth.is_admin">
                         <div class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                             Profissional
                         </div>
@@ -88,14 +106,14 @@ const page = usePage();
                                 route().current('profile.edit')
                                     ? 'bg-slate-100 text-slate-900 font-medium'
                                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
-                                'group flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-all duration-150'
+                                'group flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all duration-150'
                             ]"
                         >
-                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <span class="flex items-center gap-3"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="3"/>
                                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                             </svg>
-                            Configurações
+                            Configurações</span><span v-if="route().current('profile.edit')" class="h-1.5 w-1.5 rounded-full bg-slate-900"></span>
                         </Link>
                     </div>
                 </nav>
@@ -158,9 +176,10 @@ const page = usePage();
                         'block px-3 py-2 rounded-md text-sm font-medium'
                     ]"
                 >
-                    Dashboard
+                    Início
                 </Link>
                 <Link
+                    v-if="!$page.props.auth.is_admin"
                     :href="route('resumes.index')"
                     @click="showingMobileMenu = false"
                     :class="[
@@ -170,6 +189,8 @@ const page = usePage();
                 >
                     Currículos
                 </Link>
+                <Link :href="route('notes.index')" @click="showingMobileMenu = false" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">Anotações</Link>
+                <Link :href="route('calendar.index')" @click="showingMobileMenu = false" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">Agenda</Link>
                 <Link
                     :href="route('profile.edit')"
                     @click="showingMobileMenu = false"
@@ -177,6 +198,8 @@ const page = usePage();
                 >
                     Configurações
                 </Link>
+                <Link :href="route('profile.edit', { tab: 'perfil' })" @click="showingMobileMenu = false" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">Configurações</Link>
+                <template v-if="$page.props.auth.is_admin"><Link :href="route('admin.dashboard')" @click="showingMobileMenu = false" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">Painel Administrativo</Link><Link :href="route('admin.users')" @click="showingMobileMenu = false" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">Usuários</Link><Link :href="route('admin.integrations')" @click="showingMobileMenu = false" class="block px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">Integrações</Link></template>
                 <div class="pt-2 border-t border-slate-100">
                     <Link
                         :href="route('logout')"
@@ -202,6 +225,9 @@ const page = usePage();
                         <span>{{ page.props.flash.success }}</span>
                     </div>
                 </div>
+            </div>
+            <div v-if="page.props.flash?.error" class="bg-rose-50 border-b border-rose-200 px-4 py-3 sm:px-6 text-sm text-rose-800">
+                <div class="max-w-7xl mx-auto">{{ page.props.flash.error }}</div>
             </div>
 
             <!-- Page Header Slot -->

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Resume extends Model
 {
@@ -18,12 +19,20 @@ class Resume extends Model
         'summary',
         'additional_info',
         'section_order',
+        'photo_path',
     ];
 
     protected $casts = [
         'personal_info' => 'array',
         'section_order' => 'array',
     ];
+
+    protected $appends = ['photo_url'];
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        return $this->photo_path ? Storage::disk('public')->url($this->photo_path) : null;
+    }
 
     public function user(): BelongsTo
     {

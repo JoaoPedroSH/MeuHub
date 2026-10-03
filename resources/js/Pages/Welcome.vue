@@ -1,136 +1,21 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-
-defineProps({
-    canLogin: {
-        type: Boolean,
-        default: true,
-    },
-    canRegister: {
-        type: Boolean,
-        default: true,
-    },
-});
+defineProps({ canLogin: { type: Boolean, default: true }, canRegister: { type: Boolean, default: true } });
 </script>
 
 <template>
-    <Head title="MeuHub - Seu Hub Pessoal Modular" />
-
-    <div class="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between selection:bg-slate-900 selection:text-white">
-        <!-- Top Nav -->
-        <header class="max-w-7xl w-full mx-auto px-6 py-6 flex items-center justify-between">
-            <ApplicationLogo />
-
-            <nav v-if="canLogin" class="flex items-center gap-3">
-                <Link
-                    v-if="$page.props.auth.user"
-                    :href="route('dashboard')"
-                    class="px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-xs"
-                >
-                    Ir para o Dashboard
-                </Link>
-
-                <template v-else>
-                    <Link
-                        :href="route('login')"
-                        class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
-                    >
-                        Entrar
-                    </Link>
-
-                    <Link
-                        v-if="canRegister"
-                        :href="route('register')"
-                        class="px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-xs"
-                    >
-                        Criar Conta
-                    </Link>
-                </template>
-            </nav>
-        </header>
-
-        <!-- Hero Section -->
-        <main class="max-w-4xl mx-auto px-6 py-12 sm:py-20 text-center space-y-8">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-                <span>MeuHub MVP • Ferramenta de Currículos</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight sm:leading-none">
-                Crie e gerencie currículos com a facilidade de um documento.
-            </h1>
-
-            <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                Um espaço pessoal moderno e especializado para criar, personalizar e exportar currículos profissionais em PDF diretamente para seus processos seletivos.
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <Link
-                    :href="$page.props.auth.user ? route('dashboard') : route('register')"
-                    class="w-full sm:w-auto px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition"
-                >
-                    Começar agora gratuitamente
-                </Link>
-
-                <Link
-                    v-if="!$page.props.auth.user"
-                    :href="route('login')"
-                    class="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-medium text-sm rounded-xl border border-slate-200 transition"
-                >
-                    Já tenho uma conta (Demo)
-                </Link>
-            </div>
-
-            <!-- Features Highlights Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-12 text-left">
-                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center mb-4">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <polyline points="14 2 14 8 20 8"/>
-                            <line x1="16" y1="13" x2="8" y2="13"/>
-                            <line x1="16" y1="17" x2="8" y2="17"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold text-slate-900 text-base">Editor de Documento</h3>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Edite seu currículo como um documento fluído e elegante, sem formulários cansativos.
-                    </p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center mb-4">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect width="13" height="13" x="9" y="9" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold text-slate-900 text-base">Múltiplas Versões</h3>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Crie e duplique versões personalizadas com facilidade para cada vaga ou área de atuação.
-                    </p>
-                </div>
-
-                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center mb-4">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold text-slate-900 text-base">Exportação em PDF</h3>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Geração instantânea em formato A4, limpo, elegante e pronto para processos seletivos.
-                    </p>
-                </div>
+    <Head title="Seu Hub Pessoal" />
+    <div class="flex min-h-screen flex-col justify-between bg-slate-50 text-slate-800 selection:bg-slate-900 selection:text-white">
+        <header class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6"><ApplicationLogo /><nav v-if="canLogin" class="flex items-center gap-3"><Link v-if="$page.props.auth.user" :href="route('dashboard')" class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-xs transition hover:bg-slate-800">Ir para o Início</Link><template v-else><Link :href="route('login')" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">Entrar</Link><Link v-if="canRegister" :href="route('register')" class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-xs transition hover:bg-slate-800">Criar conta</Link></template></nav></header>
+        <main class="mx-auto max-w-5xl space-y-8 px-6 py-12 text-center sm:py-20"><div class="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700"><span class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span><span>MeuHub • Seu espaço pessoal</span></div><h1 class="text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-6xl sm:leading-none">Organize o que importa em um só lugar.</h1><p class="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">Um hub pessoal modular para reunir sua vida profissional, suas ideias e seus compromissos em ferramentas simples e conectadas.</p><div class="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row"><Link :href="$page.props.auth.user ? route('dashboard') : route('register')" class="w-full rounded-xl bg-slate-900 px-8 py-3.5 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 sm:w-auto">Começar agora gratuitamente</Link><Link v-if="!$page.props.auth.user" :href="route('login')" class="w-full rounded-xl border border-slate-200 bg-white px-8 py-3.5 text-sm font-medium text-slate-800 transition hover:bg-slate-50 sm:w-auto">Já tenho uma conta</Link></div>
+            <div class="grid grid-cols-1 gap-5 pt-12 text-left sm:grid-cols-2 lg:grid-cols-4">
+                <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs"><div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3 class="text-base font-semibold text-slate-900">Currículos</h3><p class="mt-1 text-xs leading-relaxed text-slate-500">Crie, edite, duplique e exporte currículos profissionais em PDF.</p></div>
+                <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs"><div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h6M8 16h4"/></svg></div><h3 class="text-base font-semibold text-slate-900">Anotações</h3><p class="mt-1 text-xs leading-relaxed text-slate-500">Registre ideias, organize tags e encontre notas por texto ou categoria.</p></div>
+                <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs"><div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"/></svg></div><h3 class="text-base font-semibold text-slate-900">Agenda</h3><p class="mt-1 text-xs leading-relaxed text-slate-500">Acompanhe próximos compromissos e vincule eventos às suas anotações.</p></div>
+                <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs"><div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"><span class="text-lg font-bold">G</span></div><h3 class="text-base font-semibold text-slate-900">Google Agenda</h3><p class="mt-1 text-xs leading-relaxed text-slate-500">Conecte sua agenda do Google para manter seus compromissos sincronizados.</p></div>
             </div>
         </main>
-
-        <!-- Footer -->
-        <footer class="max-w-7xl w-full mx-auto px-6 py-6 border-t border-slate-200/60 text-center text-xs text-slate-400">
-            MeuHub • Hub Pessoal Modular • Executando em ambiente Docker
-        </footer>
+        <footer class="mx-auto w-full max-w-7xl border-t border-slate-200/60 px-6 py-6 text-center text-xs text-slate-400">MeuHub • Hub Pessoal Modular</footer>
     </div>
 </template>

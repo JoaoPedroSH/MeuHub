@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'João Pedro',
                 'password' => Hash::make('senha123'),
                 'email_verified_at' => now(),
+                'is_admin' => true,
             ]
         );
 

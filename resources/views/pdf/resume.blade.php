@@ -5,7 +5,8 @@
     <title>{{ $resume->title }}</title>
     <style>
         @page {
-            margin: 28px 36px;
+            size: A4;
+            margin: 16mm 15mm 15mm 15mm;
         }
         * {
             box-sizing: border-box;
@@ -14,8 +15,8 @@
         }
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 10.5pt;
-            line-height: 1.5;
+            font-size: 10pt;
+            line-height: 1.42;
             color: #1f2937;
             background-color: #ffffff;
         }
@@ -24,14 +25,22 @@
             padding-bottom: 14px;
             margin-bottom: 18px;
         }
-        .header h1 {
+    .header h1 {
             font-size: 20pt;
             font-weight: 700;
             color: #0f172a;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 6px;
-        }
+    }
+    .profile-photo {
+        width: 78px;
+        height: 78px;
+        object-fit: cover;
+        border-radius: 50%;
+        float: right;
+        margin-left: 16px;
+    }
         .contact-info {
             font-size: 9pt;
             color: #4b5563;
@@ -42,7 +51,7 @@
             margin-right: 12px;
         }
         .section {
-            margin-bottom: 16px;
+            margin-bottom: 13px;
             page-break-inside: auto;
         }
         .section-title {
@@ -56,7 +65,7 @@
             margin-bottom: 10px;
         }
         .item {
-            margin-bottom: 12px;
+            margin-bottom: 9px;
             page-break-inside: avoid;
         }
         .item-header {
@@ -128,6 +137,9 @@
     @endphp
 
     <div class="header">
+        @if(!empty($resume->photo_path) && file_exists(public_path('storage/' . $resume->photo_path)))
+            <img class="profile-photo" src="{{ public_path('storage/' . $resume->photo_path) }}" alt="Foto profissional">
+        @endif
         <h1>{{ $fullName }}</h1>
         <div class="contact-info">
             @if(!empty($info['email']))

@@ -21,6 +21,8 @@ const form = useForm({
         github: props.resume.personal_info?.github || '',
         website: props.resume.personal_info?.website || '',
     },
+    photo: null,
+    remove_photo: false,
     summary: props.resume.summary || '',
     additional_info: props.resume.additional_info || '',
     experiences: props.resume.experiences?.map(exp => ({ ...exp })) || [],
@@ -34,6 +36,21 @@ const form = useForm({
 const isDirty = ref(false);
 const saveStatus = ref('saved'); // 'saved', 'unsaved', 'saving'
 const newSkillInput = ref('');
+const photoPreview = ref(props.resume.photo_url || null);
+
+const selectPhoto = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    form.photo = file;
+    form.remove_photo = false;
+    photoPreview.value = URL.createObjectURL(file);
+};
+
+const removePhoto = () => {
+    form.photo = null;
+    form.remove_photo = true;
+    photoPreview.value = null;
+};
 
 // Watch for form changes to indicate dirty state
 watch(
@@ -59,7 +76,8 @@ watch(
 // Save document function
 const saveResume = () => {
     saveStatus.value = 'saving';
-    form.put(route('resumes.update', props.resume.id), {
+    form.transform((data) => ({ ...data, _method: 'put' })).post(route('resumes.update', props.resume.id), {
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
             isDirty.value = false;
@@ -275,6 +293,13 @@ const languageLevels = [
                 
                 <!-- SECTION 1: DADOS PESSOAIS -->
                 <section class="border-b border-slate-100 pb-8">
+                    <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center">
+                        <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 text-slate-400">
+                            <img v-if="photoPreview" :src="photoPreview" alt="Foto do currículo" class="h-full w-full object-cover" />
+                            <svg v-else class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                        </div>
+                        <div><p class="text-sm font-semibold text-slate-800">Foto profissional <span class="font-normal text-slate-400">(opcional)</span></p><p class="mt-1 text-xs text-slate-500">JPG, PNG ou WEBP até 2 MB.</p><div class="mt-2 flex gap-2"><label class="inline-flex cursor-pointer items-center rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200">{{ photoPreview ? 'Trocar foto' : 'Adicionar foto' }}<input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="selectPhoto" /></label><button v-if="photoPreview" type="button" @click="removePhoto" class="rounded-lg px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50">Remover</button></div></div>
+                    </div>
                     <div class="mb-4">
                         <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Nome Completo</label>
                         <input

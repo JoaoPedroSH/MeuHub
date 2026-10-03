@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -122,6 +123,8 @@ class ResumeController extends Controller
             'personal_info' => 'nullable|array',
             'summary' => 'nullable|string',
             'additional_info' => 'nullable|string',
+            'photo' => 'nullable|image|max:2048',
+            'remove_photo' => 'nullable|boolean',
             'experiences' => 'nullable|array',
             'education' => 'nullable|array',
             'courses' => 'nullable|array',
@@ -130,12 +133,16 @@ class ResumeController extends Controller
             'languages' => 'nullable|array',
         ]);
 
-        DB::transaction(function () use ($resume, $validated) {
+        DB::transaction(function () use ($request, $resume, $validated) {
+            $photoPath = $resume->photo_path;
+            if ($request->boolean('remove_photo') && $photoPath) { Storage::disk('public')->delete($photoPath); $photoPath = null; }
+            if ($request->hasFile('photo')) { if ($photoPath) Storage::disk('public')->delete($photoPath); $photoPath = $request->file('photo')->store('resumes', 'public'); }
             $resume->update([
                 'title' => $validated['title'],
                 'personal_info' => $validated['personal_info'] ?? [],
                 'summary' => $validated['summary'] ?? '',
                 'additional_info' => $validated['additional_info'] ?? '',
+                'photo_path' => $photoPath,
             ]);
 
             // Sync experiences
