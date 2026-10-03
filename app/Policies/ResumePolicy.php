@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Resume;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ResumePolicy
 {
@@ -13,7 +12,7 @@ class ResumePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +20,7 @@ class ResumePolicy
      */
     public function view(User $user, Resume $resume): bool
     {
-        return false;
+        return $resume->user_id === $user->id;
     }
 
     /**
@@ -29,7 +28,7 @@ class ResumePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +36,7 @@ class ResumePolicy
      */
     public function update(User $user, Resume $resume): bool
     {
-        return false;
+        return $resume->user_id === $user->id;
     }
 
     /**
@@ -45,22 +44,14 @@ class ResumePolicy
      */
     public function delete(User $user, Resume $resume): bool
     {
-        return false;
+        return $resume->user_id === $user->id;
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can duplicate the model.
      */
-    public function restore(User $user, Resume $resume): bool
+    public function duplicate(User $user, Resume $resume): bool
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Resume $resume): bool
-    {
-        return false;
+        return $resume->user_id === $user->id;
     }
 }
