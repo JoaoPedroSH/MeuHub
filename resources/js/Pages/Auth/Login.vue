@@ -25,8 +25,8 @@ defineProps({
 });
 
 const form = useForm({
-    email: 'demo@meuhub.local',
-    password: 'senha123',
+    email: '',
+    password: '',
     remember: false,
 });
 
@@ -36,9 +36,14 @@ const submit = () => {
     });
 };
 
-const fillDemo = () => {
-    form.email = 'demo@meuhub.local';
-    form.password = 'senha123';
+const fillDemo = (admin = false) => {
+    if (admin) {
+        form.email = 'admin@meuhub.local';
+        form.password = 'senha123';
+    } else {
+        form.email = 'client@meuhub.local';
+        form.password = 'senha123';
+    }
 };
 </script>
 
@@ -54,12 +59,26 @@ const fillDemo = () => {
         <!-- Demo credentials box -->
         <div class="mb-5 p-3.5 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-between text-xs text-indigo-900">
             <div>
-                <p class="font-semibold">Conta de Demonstração:</p>
-                <p class="text-indigo-700">demo@meuhub.local • senha123</p>
+                <p class="font-semibold">Conta de Demonstração (Cliente):</p>
+                <p class="text-indigo-700">client@meuhub.local • senha123</p>
             </div>
             <button
                 type="button"
                 @click="fillDemo"
+                class="px-2.5 py-1 bg-white hover:bg-indigo-100 font-semibold text-indigo-700 rounded-lg border border-indigo-200 transition"
+            >
+                Preencher
+            </button>
+        </div>
+
+        <div class="mb-5 p-3.5 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-between text-xs text-indigo-900">
+            <div>
+                <p class="font-semibold">Conta de Demonstração (Administrador):</p>
+                <p class="text-indigo-700">admin@meuhub.local • senha123</p>
+            </div>
+            <button
+                type="button"
+                @click="fillDemo(true)"
                 class="px-2.5 py-1 bg-white hover:bg-indigo-100 font-semibold text-indigo-700 rounded-lg border border-indigo-200 transition"
             >
                 Preencher
